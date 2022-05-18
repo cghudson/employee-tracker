@@ -1,21 +1,25 @@
-const connection = require("./config/connection");
-const inquirer = require("inquirer");
-const cTable = require("console.table");
-const server = require('../server')
+// const inquirer = require("inquirer");
+// const cTable = require("console.table");
+// const server = require('../server')
 
-const allDept = () => {};
+// function allDept () {
+//     console.log('Hello')
+// };
 
-const allRoles = () => {};
+// const allRoles = () => {};
 
-const allEmployees = () => {};
+// const allEmployees = () => {};
 
-const addDept = () => {};
+// const addDept = () => {};
 
-const addRole = () => {};
+// const addRole = () => {};
 
-const addEmployee = () => {};
+// const addEmployee = () => {};
 
-const updateRole = () => {};
+// const updateRole = () => {};
+
+
+//bonus
 
 // const updateManager = () => {};
 
@@ -30,3 +34,5 @@ const updateRole = () => {};
 // const deleteEmployee = () => {};
 
 // const viewBudget = () => {};
+
+// module.exports = allDept()

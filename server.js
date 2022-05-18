@@ -1,7 +1,7 @@
 const connection = require("./config/connection");
 const inquirer = require("inquirer");
 const cTable = require("console.table");
-const functions = require("./utils/index")
+// const functions = require("./utils/index.js")
 
 connection.connect((error) => {
   if (error) throw error;
@@ -85,4 +85,30 @@ const menu = () => {
     });
 };
 
-menu();
+const allDept = () => {
+  var sql = "SELECT * FROM departments";
+  connection.query(sql, function (err, res) {
+    if (err) throw err;
+    console.table("All Departments:", res);
+    menu();
+  });
+};
+
+const allRoles = () => {
+  var sql = "SELECT * FROM role";
+  connection.query(sql, function (err, res) {
+    if (err) throw err;
+    console.table("All Roles:", res);
+    menu();
+  });
+};
+
+const allEmployees = () => {
+  var sql = "SELECT * FROM employee";
+  connection.query(sql, function (err, res) {
+    if (err) throw err;
+    console.table("All Employees:", res);
+    menu();
+  });
+};
+

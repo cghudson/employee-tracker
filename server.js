@@ -80,6 +80,7 @@ const menu = () => {
         //   break;
         case "Exit":
           connection.end();
+          console.log("Goodbye");
           break;
       }
     });
@@ -112,3 +113,30 @@ const allEmployees = () => {
   });
 };
 
+const addDept = () => {
+  var sql = "SELECT * FROM departments";
+  connection.query(sql, function (err, res) {
+    if (err) throw err;
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "deptName",
+          message: "What is the department name?",
+        },
+      ])
+      .then((response) => {
+        connection.query(
+          "INSERT INTO departments SET ?",
+          {
+            name: response.deptName,
+          },
+          (err) => {
+            if (err) throw err;
+          }
+        );
+        console.log("New Department has been added.");
+        menu();
+      });
+  });
+};

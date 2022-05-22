@@ -4,9 +4,9 @@ const cTable = require("console.table");
 
 connection.connect((error) => {
   if (error) throw error;
-    console.log("================")
-    console.log("EMPLOYEE TRACKER")
-    console.log("================")
+  console.log("========================");
+  console.log("    EMPLOYEE TRACKER    ");
+  console.log("========================");
   menu();
 });
 
@@ -52,7 +52,9 @@ const menu = () => {
           break;
         case "Exit":
           connection.end();
-          console.log("Goodbye");
+          console.log("==========================");
+          console.log("          Goodbye         ");
+          console.log("==========================");
           break;
       }
     });
@@ -63,9 +65,9 @@ const allDept = () => {
     "SELECT departments.id, departments.name AS department FROM departments;";
   connection.query(sql, function (err, res) {
     if (err) throw err;
-    console.log("================")
-    console.log("All Departments:")
-    console.log("================")
+    console.log("==========================");
+    console.log("     All Departments:     ");
+    console.log("==========================");
     console.table(res);
     menu();
   });
@@ -76,9 +78,9 @@ const allRoles = () => {
     "SELECT role.id, role.title, role.salary, departments.name AS department FROM role INNER JOIN departments on role.department_id = departments.id;";
   connection.query(sql, function (err, res) {
     if (err) throw err;
-    console.log("==========")
-    console.log("All Roles:")
-    console.log("==========")
+    console.log("=========================");
+    console.log("         All Roles:      ");
+    console.log("=========================");
     console.table(res);
     menu();
   });
@@ -89,9 +91,9 @@ const allEmployees = () => {
     "SELECT employee.id, employee.first_name, employee.last_name, role.title, departments.name AS 'department', role.salary, concat(manager.first_name, ' ', manager.last_name) as manager FROM employee LEFT JOIN role ON role.id = employee.role_id LEFT JOIN departments ON departments.id = role.department_id LEFT JOIN employee manager ON employee.manager_id = manager.id;";
   connection.query(sql, function (err, res) {
     if (err) throw err;
-    console.log("==============")
-    console.log("All Employees:")
-    console.log("==============")
+    console.log("========================");
+    console.log("     All Employees:     ");
+    console.log("========================");
     console.table(res);
     menu();
   });
@@ -262,9 +264,9 @@ const updateRole = () => {
         type: "list",
         name: "employeeList",
         message: "Which employee's role would you like to update?",
-        choices: res.map(({id, first_name, last_name}) =>({
-          name: `${first_name} ${last_name}`, 
-          value: id
+        choices: res.map(({ id, first_name, last_name }) => ({
+          name: `${first_name} ${last_name}`,
+          value: id,
         })),
       })
       .then((response) => {
@@ -278,9 +280,9 @@ const updateRole = () => {
               type: "list",
               name: "rolesList",
               message: "What is the employee's new role?",
-              choices: res.map(({id, title}) => ({
-                name: title, 
-                value: id
+              choices: res.map(({ id, title }) => ({
+                name: title,
+                value: id,
               })),
             })
             .then((response) => {

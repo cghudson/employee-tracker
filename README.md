@@ -63,7 +63,7 @@ To run any necessary installations use the following command:
 
 The following GIF demonstrates the Employee Tracker's appearance and functionality:
 
-![gif of application functionallity]()
+![gif of application functionallity](./src/employee-tracker.gif)
 
 ## License
 

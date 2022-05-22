@@ -61,6 +61,8 @@ To run any necessary installations use the following command:
 
 ## Preview:
 
+Click [here](https://drive.google.com/file/d/1HjYiTAgNv2UN47tMemgm0EwdTPqffNfW/view) to view a video demonstration. 
+
 The following GIF demonstrates the Employee Tracker's appearance and functionality:
 
 ![gif of application functionallity](./src/employee-tracker.gif)

@@ -62,7 +62,7 @@ const menu = () => {
 
 const allDept = () => {
   const sql =
-    "SELECT departments.id, departments.name AS department FROM departments;";
+    "SELECT department.id, department.name AS department FROM department;";
   connection.query(sql, function (err, res) {
     if (err) throw err;
     console.log("==========================");
@@ -75,7 +75,7 @@ const allDept = () => {
 
 const allRoles = () => {
   const sql =
-    "SELECT role.id, role.title, role.salary, departments.name AS department FROM role INNER JOIN departments on role.department_id = departments.id;";
+    "SELECT role.id, role.title, role.salary, department.name AS department FROM role INNER JOIN department on role.department_id = department.id;";
   connection.query(sql, function (err, res) {
     if (err) throw err;
     console.log("=========================");
@@ -88,7 +88,7 @@ const allRoles = () => {
 
 const allEmployees = () => {
   const sql =
-    "SELECT employee.id, employee.first_name, employee.last_name, role.title, departments.name AS 'department', role.salary, concat(manager.first_name, ' ', manager.last_name) as manager FROM employee LEFT JOIN role ON role.id = employee.role_id LEFT JOIN departments ON departments.id = role.department_id LEFT JOIN employee manager ON employee.manager_id = manager.id;";
+    "SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS 'department', role.salary, concat(manager.first_name, ' ', manager.last_name) as manager FROM employee LEFT JOIN role ON role.id = employee.role_id LEFT JOIN department ON department.id = role.department_id LEFT JOIN employee manager ON employee.manager_id = manager.id;";
   connection.query(sql, function (err, res) {
     if (err) throw err;
     console.log("========================");
@@ -100,7 +100,7 @@ const allEmployees = () => {
 };
 
 const addDept = () => {
-  connection.query("SELECT * FROM departments;", function (err, res) {
+  connection.query("SELECT * FROM department;", function (err, res) {
     if (err) throw err;
     inquirer
       .prompt([
@@ -112,7 +112,7 @@ const addDept = () => {
       ])
       .then((response) => {
         connection.query(
-          "INSERT INTO departments SET ?;",
+          "INSERT INTO department SET ?;",
           {
             name: response.deptName,
           },
@@ -127,7 +127,7 @@ const addDept = () => {
 };
 
 const addRole = () => {
-  connection.query("SELECT * FROM departments;", (err, res) => {
+  connection.query("SELECT * FROM department;", (err, res) => {
     if (err) {
       throw err;
     }
@@ -147,12 +147,12 @@ const addRole = () => {
           type: "list",
           name: "roleDept",
           message: "What department does this role fall under?",
-          choices: res.map((departments) => departments.name),
+          choices: res.map((department) => department.name),
         },
       ])
       .then((response) => {
         const deptChoice = res.find(
-          (departments) => departments.name === response.roleDept
+          (department) => department.name === response.roleDept
         );
         connection.query(
           "INSERT INTO role SET ?;",

@@ -2,7 +2,7 @@ DROP DATABASE IF EXISTS employees;
 CREATE DATABASE employees;
 USE employees;
 
-CREATE TABLE departments (
+CREATE TABLE department (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(30)
 );
@@ -12,7 +12,7 @@ CREATE TABLE role (
     title VARCHAR(30),
     salary DECIMAL,
     department_id INT NOT NULL,
-    FOREIGN KEY(department_id) REFERENCES departments(id)
+    FOREIGN KEY(department_id) REFERENCES department(id)
 );
 
 CREATE TABLE employee (

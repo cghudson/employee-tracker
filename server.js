@@ -87,7 +87,7 @@ const menu = () => {
 };
 
 const allDept = () => {
-  var sql = "SELECT * FROM departments";
+  var sql = "SELECT * FROM departments;";
   connection.query(sql, function (err, res) {
     if (err) throw err;
     console.table("All Departments:", res);
@@ -96,7 +96,7 @@ const allDept = () => {
 };
 
 const allRoles = () => {
-  var sql = "SELECT * FROM role";
+  var sql = "SELECT * FROM role;";
   connection.query(sql, function (err, res) {
     if (err) throw err;
     console.table("All Roles:", res);
@@ -105,7 +105,7 @@ const allRoles = () => {
 };
 
 const allEmployees = () => {
-  var sql = "SELECT * FROM employee";
+  var sql = "SELECT * FROM employee;";
   connection.query(sql, function (err, res) {
     if (err) throw err;
     console.table("All Employees:", res);
@@ -114,29 +114,123 @@ const allEmployees = () => {
 };
 
 const addDept = () => {
-  var sql = "SELECT * FROM departments";
+  var sql = "SELECT * FROM departments;";
   connection.query(sql, function (err, res) {
     if (err) throw err;
     inquirer
       .prompt([
         {
-          type: "input",
           name: "deptName",
+          type: "input",
           message: "What is the department name?",
         },
       ])
       .then((response) => {
         connection.query(
-          "INSERT INTO departments SET ?",
+          "INSERT INTO departments SET ?;",
           {
             name: response.deptName,
           },
           (err) => {
             if (err) throw err;
+            console.log("New Department has been added.");
+            menu();
           }
         );
-        console.log("New Department has been added.");
-        menu();
       });
+  });
+};
+
+const addRole = () => {
+  connection.query("SELECT * FROM departments;", (err, res) => {
+    if (err) {
+      throw err;
+    }
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "name",
+          message: "What is the role name?",
+        },
+        {
+          type: "input",
+          name: "salary",
+          message: "What is the salary for this role?",
+        },
+        {
+          type: "list",
+          name: "roleDept",
+          message: "What department does this role fall under?",
+          choices: res.map((departments) => departments.name),
+        },
+      ])
+      .then((response) => {
+        const deptChoice = res.find(
+          (departments) => departments.name === response.roleDept
+        );
+        connection.query(
+          "INSERT INTO role SET ?;",
+          {
+            title: response.name,
+            salary: response.salary,
+            department_id: deptChoice.id,
+          },
+          (err) => {
+            if (err) {
+              throw err;
+            }
+            console.log("New role has been added.");
+            menu();
+          }
+        );
+      });
+  });
+};
+
+const addEmployee = () => {
+  connection.query("SELECT * from role;", (err, res) => {
+    if (err) {
+      throw err;
+    }
+    inquirer.prompt([
+      {
+        type: "input",
+        name: "firstName",
+        message: "What is the employee's first name?",
+      },
+      {
+        type: "input",
+        name: "lastName",
+        message: "What is the employee's last name?",
+      },
+      {
+        type: "list",
+        name: "roleName",
+        message: "What is the employee's role?",
+        choices: res.map((role) => role.title),
+      },
+      {
+        type: "list",
+        name: "manager",
+        message: "What is the manager's ID number?",
+        //placeholder
+        choices: ['1', "3", "5", "7"]
+      },
+    ]).then((response) => {
+      const roleChoice = res.find(role => role.title === response.roleName)
+      connection.query("INSERT INTO employee SET ?;", {
+        first_name: response.firstName,
+        last_name: response.lastName,
+        role_id: roleChoice.id,
+        manager_id: response.manager_id
+      }, (err) => {
+        if (err) {
+          throw err;
+        }
+        console.log("New employee has been added.");
+        menu();
+      })
+    })
   });
 };
